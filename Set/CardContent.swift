@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct CardContent: View {
-    let card: Set.Card
-    typealias Feature = Set.Feature
+    let card: SetModel.Card
+    typealias Feature = SetModel.Feature
     
-    init(card: Set.Card) {
+    init(card: SetModel.Card) {
         self.card = card
     }
     
-    func getNumber(_ feature: Set.Feature) -> Int {
+    func getNumber(_ feature: SetModel.Feature) -> Int {
         switch feature {
         case Feature.A:
             return 1
@@ -26,7 +26,7 @@ struct CardContent: View {
         }
     }
     
-    func getColor(_ feature: Set.Feature) -> Color {
+    func getColor(_ feature: SetModel.Feature) -> Color {
         switch feature {
         case Feature.A:
             return .green
@@ -37,7 +37,7 @@ struct CardContent: View {
         }
     }
     
-    func renderFilling<ContentView: Shape>(@ViewBuilder for content: () -> ContentView) -> some View {
+    func renderFilling<ContentView: Shape>(for content: () -> ContentView) -> some View {
         ZStack {
             switch card.fill {
             case Feature.A:
@@ -53,7 +53,7 @@ struct CardContent: View {
         }
     }
     
-    @ViewBuilder func renderShape(card: Set.Card) -> some View {
+    func renderShape(card: SetModel.Card) -> some View {
         Group {
             switch card.symbol {
             case Feature.A: renderFilling() { Circle() }
@@ -74,7 +74,7 @@ struct CardContent: View {
 
 struct CardContent_Previews: PreviewProvider {
     static var previews: some View {
-        let card = Set.Card(symbol: Feature.A, fill: Feature.A, number: Feature.A, color: Feature.A)
+        let card = SetModel.Card(symbol: Feature.A, fill: Feature.A, number: Feature.C, color: Feature.A)
         CardView(card: card)
     }
 }

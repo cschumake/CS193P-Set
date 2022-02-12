@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct Set {
-    private var deck: [Card]
-    typealias Feature = Card.Feature
+struct SetModel {
+    private(set) var deck: [Card]
     private var cardsInPlay: [Card]
+    private(set) var discardedCards: [Card]
+    private var firstDraw = true
+    typealias Feature = Card.Feature
     
     mutating func selectCard(card: Card) {
         updateSelectedStatus(card: card)
@@ -29,9 +31,10 @@ struct Set {
         } else if selectedCards.count > 3 {
             if selectedCards.filter({ $0.id != card.id }).allSatisfy({ $0.isMatched == true }) {
                 for card in selectedCards.filter({ $0.id != card.id }) {
+                    discardedCards.append(card)
                     cardsInPlay.removeAll(where: { $0.id == card.id })
                 }
-                _ = drawThreeCards()
+                _ = drawCards(numberOfCards: 3)
             }
             for (index, _) in cardsInPlay.enumerated() {
                 cardsInPlay[index].selected = false
@@ -70,6 +73,7 @@ struct Set {
     init() {
         deck = []
         cardsInPlay = []
+        discardedCards = []
         
         func addThreeCardsToDeck(symbol: Feature, number: Feature, color: Feature) {
             for feature in Feature.allCases {
@@ -111,7 +115,7 @@ struct Set {
             addThreeCardsToDeck(symbol: Feature.C, number: Feature.C, color: color)
         }
         
-        deck.shuffle()
+        //deck.shuffle()
         _ = initialDraw()
     }
     
@@ -142,7 +146,7 @@ struct Set {
         return cardsInPlay
     }
     
-    struct Card: Identifiable {
+    struct Card: Identifiable, Hashable {
         let id = UUID()
         
         enum Feature: CaseIterable {
@@ -161,7 +165,7 @@ struct Set {
     }
 }
 
-extension Array where Element == Set.Card {
+extension Array where Element == SetModel.Card {
     func isSet() -> Bool {
         if self.count != 3 {
             return false
