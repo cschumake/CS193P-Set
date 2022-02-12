@@ -8,22 +8,30 @@
 import SwiftUI
 
 class SetViewModel: ObservableObject {
-    @Published private var model = Set()
+    @Published private var model = SetModel()
     
-    var cards: [Set.Card] {
+    var cards: [SetModel.Card] {
         return model.cards
     }
     
-    func draw() -> [Set.Card] {
+    var discardedCards: [SetModel.Card] {
+        return model.discardedCards
+    }
+    
+    var deck: [SetModel.Card] {
+        return model.deck
+    }
+    
+    func draw() -> [SetModel.Card] {
         return model.drawThreeCards()
     }
     
     // Mark - Intent(s)
-    func selectCard(card: Set.Card) {
+    func selectCard(card: SetModel.Card) {
         model.selectCard(card: card)
     }
     
     func newGame() {
-        model = Set()
+        model = SetModel()
     }
 }

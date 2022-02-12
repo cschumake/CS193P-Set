@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-typealias Feature = Set.Feature
+typealias Feature = SetModel.Feature
 
 struct CardView: View {
-    let card: Set.Card
+    let card: SetModel.Card
     
-    init(card: Set.Card) {
+    init(card: SetModel.Card) {
         self.card = card
     }
     
@@ -54,7 +54,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        let card = Set.Card(symbol: Feature.A, fill: Feature.A, number: Feature.A, color: Feature.A)
+        let card = SetModel.Card(symbol: Feature.A, fill: Feature.A, number: Feature.A, color: Feature.A)
         CardView(card: card)
     }
 }
